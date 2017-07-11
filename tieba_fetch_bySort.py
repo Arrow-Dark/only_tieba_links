@@ -29,9 +29,10 @@ def item_into_mongo(items,db,pool):
             name=item['_id']
             url=item['ba_url']
             if name!=None and name!='' and url!=None and url!='':
-                #check_be=conn1.find_one({'_id': name})
-                conn1.update({'_id': name}, item, True)
-                Url_into_redis(pool,[{'url':url,'name':name}],'tieba_url_cache')
+                check_be=conn1.find_one({'_id': name})
+                if not check_be:
+                    conn1.update({'_id': name}, item, True)
+                    Url_into_redis(pool,[{'url':url,'name':name}],'tieba_url_cache')
                 '''
                 if not check_be:
                     Url_into_redis(pool,[{'url':url,'name':name}],'tieba_url_cache')

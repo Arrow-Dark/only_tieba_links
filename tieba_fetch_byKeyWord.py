@@ -11,6 +11,7 @@ import redis
 import re
 from pymongo import MongoClient
 import tieba_fetch_bySort
+import baidu_hot_words
 
 def readWords(rcli):
     try:
@@ -68,6 +69,8 @@ def fetch_byKeyWord(pool, db1,db2):
                 db = db2
             word=getKeyWord(rcli)
             print('Have to get the keyword,Start fetching posted links!')
+            t_=threading.Thread(target=baidu_hot_words.byEvent_work,args=(pool,db,word))
+            t_.start()
             url='http://tieba.baidu.com/f/search/fm?ie=UTF-8&qw='+word+'&rn=1'
             res=requests.get(url,timeout=15)
             bs=BeautifulSoup(res.text, 'html.parser')
@@ -83,5 +86,6 @@ def fetch_byKeyWord(pool, db1,db2):
                 #time.sleep(3)
                 tags_parser_thread.join()
                 print('tieba link has caught!')
+            t_.join()
         except:
             traceback.print_exc()
