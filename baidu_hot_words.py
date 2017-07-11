@@ -112,7 +112,6 @@ def byEvent_work(pool,db,word):
     try:
         #t1=threading.Thread(target=fetch_hot_words,args=(pool,))
         #t1.start()
-        print(word)
         fetch_event(word=word,db=db,pool=pool)
     except:
       traceback.print_exc()
