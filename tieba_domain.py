@@ -14,7 +14,7 @@ import tieba_fetch_bySort
 
 
 def all_fetcher_thread(rpool, db1,db2,es):
-    for i in range(6):
+    for i in range(21):
         t2=threading.Thread(target=tieba_fetch_byKeyWord.fetch_byKeyWord,args=(rpool, db1,db2))
         t2.start()
 
